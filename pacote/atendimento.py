@@ -10,6 +10,7 @@ def  func_atendimento(self):
           escolha = int(input("Digite o número entre 0-3: "))
           if escolha < 0 or escolha > 3:
             print("\nErro: Digite apenas números entre 0 até 3!!")
+            continue
           elif escolha == 0:
             print("\nAtendimento encerrado")
             return None
@@ -18,3 +19,4 @@ def  func_atendimento(self):
            return escolha
          except ValueError:
             print("\nDigite apenas os números correspondentes") 
+            continue
