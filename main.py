@@ -2,7 +2,8 @@ from kivymd.app import MDApp
 from kivy.lang import Builder   
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.screen import MDScreen
-
+from kivy.core.window import Window
+from kivy.clock import Clock
 
 from BackEnd.classe_veterinario import veterinario
 
@@ -31,7 +32,7 @@ class Cadastro(MDScreen):
             self.manager.current = 'login'
         else:
            self.ids.mensagem_erro.text = "Preencha todos os campos."
-
+        
 class Login(MDScreen):
     
     #apenas para declarar as 2 variáveis, que estão vazias, pois ainda não fora comparadas
@@ -39,7 +40,7 @@ class Login(MDScreen):
     nome_usuario =""
     senha_usuario = ""
    
-    def login(self, *args ):
+    def login(self):
        
         #Vão pegar os valores que eu digitar e compará-los com os antigos
         nome_login = self.ids.nome_usuario.text
@@ -69,7 +70,6 @@ class Menu(MDScreen):
         nome_usuario = self.manager.get_screen('login').nome_usuario
         sistema.nome = nome_usuario
         self.ids.label_nome.text =  f'Nome do Usuário: {nome_usuario}'
-        
 class Atendimento(MDScreen):
     def iniciar_atendimento(self, selecionar_servico):
 
@@ -77,27 +77,32 @@ class Atendimento(MDScreen):
          
         #Comparação dependendo do que o usuário escolher
         if resultado is not None:
-            self.manager.get_screen('comprar').servico = sistema.servico[selecionar_servico]
+            self.manager.get_screen('comprar').servico = selecionar_servico
             self.manager.current = 'comprar'
         else:
             
                 self.manager.current = 'menu'
                 self.ids.label_cancelar.text = 'Atendimento cancelado'
                 self.ids.label_cancelar.text = ''
+
 class Comprar (MDScreen):
    servico=None
+   
+
    #Vai determinar os valores que a pessoa colocou
    #E o pagamento que ela vai escolher
    
-   def iniciar_pagamento(self, selecionar_servico, escolha_pagamento):
-        forma_pagamento = sistema.verificador(selecionar_servico)
-
+   def iniciar_pagamento(self, escolha_pagamento):
+       
        #Forma mais fácil de escolher o tipo de pagamento, já estando dentro do main.py
        #Não precisando fazer outra chamada para consulta
        #O valor do escolha_pagamento é dado por conta dos botões
 
+        Clock.schedule_once(self.apagar) 
+
+
         if  escolha_pagamento== 1:
-            forma_pagamento = "Dinheiro"
+            forma_pagamento = "Boleto Bancário"
         elif escolha_pagamento == 2:
             forma_pagamento = "Pix"
         elif escolha_pagamento == 3:
@@ -113,18 +118,21 @@ class Comprar (MDScreen):
                 sistema.valor = float(self.ids.valores.text)
             except ValueError:
                 self.ids.label_cancelar.text = "Digite um valor válido"    
-                return         
+                return  None    
+            
             self.manager.get_screen('verificador').forma_pagamento = forma_pagamento
-            self.manager.get_screen('verificador').verificar(selecionar_servico)
+            self.manager.get_screen('verificador').verificar(self.servico)
             self.manager.current = 'verificador'
         else:
             self.manager.current = 'menu'
             self.ids.label_cancelar.text = 'Pagamento cancelado'
-
-class Verificador(MDScreen):
+   def apagar(self,*args):
+    self.ids.valores.text = ""
+    self.ids.label_cancelar.text = ''
+class Verificador(MDScreen):   
     forma_pagamento = None
-    def verificar(self, selecionar_servico):
-        resultado=sistema.verificador(selecionar_servico) 
+    def verificar(self, servico):
+        resultado=sistema.verificador(servico) 
        
         #Vai fazer a comparativa com o que a pessoa
         #Caso a pessoa tenha colocado um valor abaixo da do serviço, será insuficiente
@@ -134,8 +142,11 @@ class Verificador(MDScreen):
            
             self.ids.label_verificador.text =  (f"Compra Realizada com Sucesso!\n"
                                                f"O Preço do Serviço: {resultado[2]:.2f}\n"
+                                               f""
                                                f"Valor restante: R${resultado[0]:.2f}\n"
+                                               f""
                                                f"O Serviço escolhido: {resultado[1]}\n"
+                                               f""
                                                f"O Pagamento escolhido: {self.forma_pagamento}")        
         else:
             self.ids.label_verificador.text = f"{resultado}"
@@ -144,10 +155,27 @@ class FinalizarCompra(MDScreen):
     pass
 class Executador_App(MDApp):
     def build(self):
+        
         self.theme_cls.primary_palette = "Teal"
         self.theme_cls.accent_palette = "Amber"
         self.theme_cls.theme_style = "Light"
+        self.theme_cls.theme_style_switch_animation = True
+        self.theme_cls.theme_style_switch_animation_duration = 0.8
+        
         return Gerenciador()
     
+    def modo_escuro(self):
+        
+        if self.theme_cls.primary_palette =="Teal":
+            self.theme_cls.primary_palette = "Orange"
+        else:
+            self.theme_cls.primary_palette ="Teal"
+        
+        if self.theme_cls.theme_style== "Light":
+            self.theme_cls.theme_style = "Dark"
+        else:
+            self.theme_cls.theme_style = "Light"
+    
 if __name__ == '__main__':
+    Window.size = (400,600)
     Executador_App().run()    
