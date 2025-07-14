@@ -86,7 +86,7 @@
             text:"Voltar ao Cadastro"
             on_release:root.manager.current = 'cadastro'    
         Label:
-            text:"Erro"
+            text:""
             id:mensagem_login
             halign:"center"
             theme_text_color:"Error"
@@ -174,6 +174,12 @@
                 size_hint: None, None
                 size: "200dp", "60dp"
                 on_release:  root.iniciar_atendimento(3) 
+
+            MDRaisedButton:              
+                text: 'Comprar Serviço'
+                size_hint: None, None
+                size: "200dp", "60dp"
+                on_release:  root.iniciar_atendimento(4)     
         
             MDRaisedButton:    
                 text: 'Cancelar'
@@ -241,25 +247,25 @@
                         text: '1 - Dinheiro'
                         size_hint: None, None
                         size: "200dp", "50dp"
-                        on_release: root.iniciar_pagamento(root.servico,1)
+                        on_release: root.iniciar_pagamento(1,1)
 
                     MDRaisedButton:
                         text: '2 - Pix'
                         size_hint: None, None
                         size: "200dp", "50dp"
-                        on_release: root.iniciar_pagamento(root.servico,2)
+                        on_release: root.iniciar_pagamento(2,2)
 
                     MDRaisedButton:
                         text: '3 - Cartão de crédito'
                         size_hint: None, None
                         size: "200dp", "50dp"
-                        on_release: root.iniciar_pagamento(root.servico,3)
+                        on_release: root.iniciar_pagamento(3,3)
 
                     MDRaisedButton:
                         text: '4 - Cartão de débito'
                         size_hint: None, None
                         size: "200dp", "50dp"
-                        on_release: root.iniciar_pagamento(root.servico,4)
+                        on_release: root.iniciar_pagamento(4,4)
 
                     MDRaisedButton:
                         id: botao_cancelar
@@ -267,7 +273,7 @@
                         size_hint: None, None
                         size: "200dp", "50dp"
                         md_bg_color: 1, 0, 0, 1
-                        on_release: root.iniciar_pagamento(root.servico,0)
+                        on_release: root.iniciar_pagamento(0)
 
                     MDLabel:
                         id: label_cancelar
@@ -288,6 +294,7 @@
             halign:"center"
             font_size:20
             size_hint_y:None
+            pos_hint:{"top":1, "center_x":0.5}
         
         MDRaisedButton:
             text:"Finalizar Compra"

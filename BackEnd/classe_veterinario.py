@@ -1,6 +1,6 @@
 
 from .atendimento import func_atendimento
-from .consulta import func_consulta
+#from .consulta import func_consulta
 from .verificador import func_verificador
 
 class veterinario:
@@ -13,7 +13,8 @@ class veterinario:
         self.nome = ""
         self.servico = {1: ("Vacinação", 200),
                         2: ("Exames", 500),
-                        3: ("Banho e tosa", 150)}
+                        3: ("Banho e tosa", 150),
+                        4: ("Adestramento", 350)}
         
         self.pagamento = {1: "Dinheiro",
                          2: "Cartão de crédito",
@@ -46,9 +47,6 @@ class veterinario:
     
     def  atendimento(self, selecionar_servico):
         return func_atendimento(self, selecionar_servico)
-    
-    def consulta(self, escolha):
-       return func_consulta(self, escolha) 
     
     def verificador(self, selecionar_servico):
         return func_verificador(self, selecionar_servico)

@@ -1,7 +1,6 @@
 def func_verificador(self, selecionar_servico):   
-
-    
     #Está função verifica se o cliente tem saldo suficiente para pagar pelo serviço
+   
     nome_servico, preco = self.servico[selecionar_servico]
     if self.valor <=0:
         return f"Não pode ser Zero e Nem valores Abaixo"
