@@ -21,12 +21,14 @@
         orientation: 'vertical'
         padding: 20
         spacing: 20
+       
         MDLabel:
             text: "Cadastro de Usuário"
             font_size: 32
             size_hint_y: None
             halign:"center"
             font_style:"H4"
+        
         MDTextField:
             id: nome_input
             hint_text: "Digite seu nome: "
@@ -34,6 +36,7 @@
             height: 50 
             mode:"rectangle"
             multiline: False
+        
         MDTextField:
             id: senha_input
             hint_text: "Digite a sua senha: "
@@ -41,27 +44,32 @@
             height: 50  
             mode:"rectangle"
             multiline: False  
+       
         MDRectangleFlatButton:
             pos_hint:{"center_x":0.5}
             id: botao_cadastro
             text: "Login"
             on_release:
                 root.cadastrar()
+        
         MDLabel:
             id:mensagem_erro
             text:""  
             theme_text_color:"Error"      
 <Login>:
+    
     MDBoxLayout: 
         orientation:'vertical'
         padding: 20
         spacing: 20
+        
         MDLabel:
             text: "Login de Usuário"
             font_size: 32
             size_hint_y: None
             halign: "center"
             font_style:"H4"
+        
         MDTextField:
             id:nome_usuario
             hint_text: "Digite seu nome de usuário: "
@@ -69,6 +77,8 @@
             height: 50
             mode:"rectangle"
             multiline: False
+       
+       
         MDTextField:
             id:senha_usuario
             hint_text: "Digite sua senha: "
@@ -77,15 +87,18 @@
             password:True
             mode:"rectangle"   
             multiline: False     
+        
         MDRaisedButton:
             pos_hint: {"center_x":0.5}
             text: "Entrar"
             on_release: root.login()
+        
         MDRaisedButton:
             pos_hint: {"center_x":0.5}
             text:"Voltar ao Cadastro"
             on_release:root.manager.current = 'cadastro'    
-        Label:
+        
+        MDLabel:
             text:""
             id:mensagem_login
             halign:"center"
@@ -97,6 +110,7 @@
         orientation: 'vertical'
         padding:100
         spacing: 20
+        
         MDLabel: 
             text:"Bem-Vindo ao PetShop!"
             font_size: 32
@@ -105,6 +119,7 @@
             pos_hint:{"top":1, "center_x":0.5}
             halign:"center"
             font_style:"H4"
+        
         MDLabel:
             id: label_nome 
             font_size: 32
@@ -112,11 +127,13 @@
             height: 50
             halign:"center"
             font_style:"H4"
+        
         MDRaisedButton:
             text: "Loja"
             on_release: root.manager.current = 'atendimento'
             pos_hint:{"center_x":0.25}
             size:150,50
+        
         MDRaisedButton:
             pos_hint:{"center_x":0.25}
             size:150,50
@@ -137,20 +154,23 @@
                 ActionButton:
                     text: "Sair"
                     on_release: app.stop()    
+        
         ScrollView:   
             MDBoxLayout:
                 id: box
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
+        
         MDBoxLayout:
             id:box_servicos
             orientation: 'horizontal'
-            Label:
+            MDLabel:
                 id: texto
                 text: ''
                 font_size: 32
                 size_hint_y: None 
+       
         MDBoxLayout:
             orientation:'vertical'
             spacing:10
@@ -287,7 +307,7 @@
         size_hint_y: None
         padding:20
         spacing:10            
-        
+        A
         MDLabel:
             id: label_verificador
             text:""
@@ -313,17 +333,7 @@
         size_hint_y:None
         height:50
         padding:20
-        spacing:10
-        ActionBar:
-            size_hint_y: None
-            ActionView:
-                ActionPrevious:
-                    title: 'Retorno'
-                    with_previous: False
-                    on_release: root.manager.current = 'comprar'
-                ActionButton:
-                    text: "Sair"
-                    on_release: app.stop()    
+        spacing:10  
         MDLabel:
             text: "Compra Finalizada com Sucesso!"
             font_size: 32

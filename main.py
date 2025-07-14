@@ -2,7 +2,7 @@ from kivymd.app import MDApp
 from kivy.lang import Builder   
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.screen import MDScreen
-from kivy.properties import StringProperty
+
 
 from BackEnd.classe_veterinario import veterinario
 
@@ -22,10 +22,9 @@ class Cadastro(MDScreen):
         nome_cadastro=self.ids.nome_input.text
         senha_cadastro=self.ids.senha_input.text
                    
-        #condição que pede tanto a senha quanto cadastro para prosseguir 
+        
         if nome_cadastro and senha_cadastro:
 
-            #Vai armazenar as 2 variáveis dentro da classe veterinario e retornarão na função cadastro
             sistema.cadastro(nome_cadastro, senha_cadastro)
             self.manager.get_screen('login').nome_usuario = nome_cadastro
             self.manager.get_screen('login').senha_usuario = senha_cadastro
@@ -34,13 +33,18 @@ class Cadastro(MDScreen):
            self.ids.mensagem_erro.text = "Preencha todos os campos."
 
 class Login(MDScreen):
-    #apenas para declarar as 2 variáveis, que estão vaziar, pois ainda não fora comparadas
+    
+    #apenas para declarar as 2 variáveis, que estão vazias, pois ainda não fora comparadas
+   
     nome_usuario =""
     senha_usuario = ""
+   
     def login(self, *args ):
-        #Vão pegar os valores que eu digitar 
+       
+        #Vão pegar os valores que eu digitar e compará-los com os antigos
         nome_login = self.ids.nome_usuario.text
         senha_login = self.ids.senha_usuario.text
+        
         #chamada da classe para pegar as variáveis, levando em conta as variáveis dentro da classe veterinario
         sistema.nome = nome_login
         sistema.senha = senha_login
@@ -56,22 +60,24 @@ class Login(MDScreen):
             self.ids.mensagem_login.text = "Senha ou nome de usuário incorretos."
          
 class Menu(MDScreen):
+    
     #Apenas para mostrar o nome do usuário e levar esse valor para a tela de menu
+   
     def Montar_Perfil(self):
+        
         #o .get_screen('') é o comando q leva tal informação para outra tela
         nome_usuario = self.manager.get_screen('login').nome_usuario
         sistema.nome = nome_usuario
         self.ids.label_nome.text =  f'Nome do Usuário: {nome_usuario}'
         
 class Atendimento(MDScreen):
-    def iniciar_atendimento(self, escolha):
+    def iniciar_atendimento(self, selecionar_servico):
 
-        #vai pegar as condicionais que há na função atendimento
-        resultado = sistema.atendimento(escolha)
+        resultado = sistema.atendimento(selecionar_servico)
          
         #Comparação dependendo do que o usuário escolher
         if resultado is not None:
-            self.manager.get_screen('comprar').servico = sistema.servico[escolha]
+            self.manager.get_screen('comprar').servico = sistema.servico[selecionar_servico]
             self.manager.current = 'comprar'
         else:
             
@@ -80,9 +86,9 @@ class Atendimento(MDScreen):
                 self.ids.label_cancelar.text = ''
 class Comprar (MDScreen):
    servico=None
-   
-   #Vai determinar os valor que a pessoa colocou
+   #Vai determinar os valores que a pessoa colocou
    #E o pagamento que ela vai escolher
+   
    def iniciar_pagamento(self, selecionar_servico, escolha_pagamento):
         forma_pagamento = sistema.verificador(selecionar_servico)
 

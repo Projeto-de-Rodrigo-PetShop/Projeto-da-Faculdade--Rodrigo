@@ -1,6 +1,5 @@
 
 from .atendimento import func_atendimento
-#from .consulta import func_consulta
 from .verificador import func_verificador
 
 class veterinario:
