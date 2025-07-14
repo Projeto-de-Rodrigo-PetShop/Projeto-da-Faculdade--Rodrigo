@@ -1,0 +1,333 @@
+#:kivy 2.3.0
+
+<Gerenciador>:
+    Cadastro:
+        name: 'cadastro'
+    Login:
+        name: 'login'   
+    Menu:
+        name: 'menu'
+    Atendimento:
+        name: 'atendimento' 
+    Comprar:
+        name: 'comprar'
+    Verificador:
+        name: 'verificador'
+    FinalizarCompra:
+        name: 'finalizar_compra'        
+
+<Cadastro>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+        MDLabel:
+            text: "Cadastro de Usuário"
+            font_size: 32
+            size_hint_y: None
+            halign:"center"
+            font_style:"H4"
+        MDTextField:
+            id: nome_input
+            hint_text: "Digite seu nome: "
+            size_hint_y: None
+            height: 50 
+            mode:"rectangle"
+            multiline: False
+        MDTextField:
+            id: senha_input
+            hint_text: "Digite a sua senha: "
+            size_hint_y: None
+            height: 50  
+            mode:"rectangle"
+            multiline: False  
+        MDRectangleFlatButton:
+            pos_hint:{"center_x":0.5}
+            id: botao_cadastro
+            text: "Login"
+            on_release:
+                root.cadastrar()
+        MDLabel:
+            id:mensagem_erro
+            text:""  
+            theme_text_color:"Error"      
+<Login>:
+    MDBoxLayout: 
+        orientation:'vertical'
+        padding: 20
+        spacing: 20
+        MDLabel:
+            text: "Login de Usuário"
+            font_size: 32
+            size_hint_y: None
+            halign: "center"
+            font_style:"H4"
+        MDTextField:
+            id:nome_usuario
+            hint_text: "Digite seu nome de usuário: "
+            size_hint_y: None
+            height: 50
+            mode:"rectangle"
+            multiline: False
+        MDTextField:
+            id:senha_usuario
+            hint_text: "Digite sua senha: "
+            size_hint_y: None
+            height: 50
+            password:True
+            mode:"rectangle"   
+            multiline: False     
+        MDRaisedButton:
+            pos_hint: {"center_x":0.5}
+            text: "Entrar"
+            on_release: root.login()
+        MDRaisedButton:
+            pos_hint: {"center_x":0.5}
+            text:"Voltar ao Cadastro"
+            on_release:root.manager.current = 'cadastro'    
+        Label:
+            text:"Erro"
+            id:mensagem_login
+            halign:"center"
+            theme_text_color:"Error"
+
+            
+<Menu>:                
+    MDBoxLayout:             
+        orientation: 'vertical'
+        padding:100
+        spacing: 20
+        MDLabel: 
+            text:"Bem-Vindo ao PetShop!"
+            font_size: 32
+            size_hint_y: None
+            height: 100
+            pos_hint:{"top":1, "center_x":0.5}
+            halign:"center"
+            font_style:"H4"
+        MDLabel:
+            id: label_nome 
+            font_size: 32
+            size_hint_y: None
+            height: 50
+            halign:"center"
+            font_style:"H4"
+        MDRaisedButton:
+            text: "Loja"
+            on_release: root.manager.current = 'atendimento'
+            pos_hint:{"center_x":0.25}
+            size:150,50
+        MDRaisedButton:
+            pos_hint:{"center_x":0.25}
+            size:150,50
+            text: "Sair"
+            on_release: app.stop() 
+
+<Atendimento>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing:10
+        ActionBar:
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    title: 'Serviços'
+                    with_previous: False
+                    on_release: root.manager.current = 'menu'
+                ActionButton:
+                    text: "Sair"
+                    on_release: app.stop()    
+        ScrollView:   
+            MDBoxLayout:
+                id: box
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+        MDBoxLayout:
+            id:box_servicos
+            orientation: 'horizontal'
+            Label:
+                id: texto
+                text: ''
+                font_size: 32
+                size_hint_y: None 
+        MDBoxLayout:
+            orientation:'vertical'
+            spacing:10
+            size_hint:None,None
+            width:10
+            height:self.minimum_height                   
+            MDRaisedButton:              
+                text: 'Comprar Serviço'
+                size_hint: None, None
+                size: "200dp", "60dp"
+                on_release: root.iniciar_atendimento(1) 
+            
+            MDRaisedButton:              
+                text: 'Comprar Serviço'
+                size_hint: None, None
+                size: "200dp", "60dp"
+                on_release: root.iniciar_atendimento(2) 
+        
+            MDRaisedButton:              
+                text: 'Comprar Serviço'
+                size_hint: None, None
+                size: "200dp", "60dp"
+                on_release:  root.iniciar_atendimento(3) 
+        
+            MDRaisedButton:    
+                text: 'Cancelar'
+                size_hint:None,None
+                size:"200dp","60dp"
+                md_bg_color:1,0,0,1
+                id: botao_cancelar
+                on_release: root.iniciar_atendimento(0) 
+        MDLabel:
+            id: label_cancelar
+            text: ""
+<Comprar>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        ActionBar:
+            size_hint_y: None
+            height: "56dp"
+            ActionView:
+                ActionPrevious:
+                    title: 'Loja'
+                    with_previous: False
+                    on_release: root.manager.current = 'atendimento'
+                ActionButton:
+                    text: "Sair"
+                    on_release: app.stop()
+
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: "20dp"
+                spacing: "20dp"
+                size_hint_y: None
+                height: self.minimum_height
+                id:box_comprar
+
+                MDLabel:
+                    id: label_pagamento
+                    text: ''
+                    font_size: 18
+                    halign: "left"
+                    size_hint_y: None
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    spacing: "10dp"
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    MDTextField:
+                        id: valores
+                        hint_text: "Digite o seu valor:"
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        mode: "rectangle"
+                        input_filter: 'float'
+                        multiline: False
+
+                    MDLabel:
+                        text: ""
+                        font_size: 18
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDRaisedButton:
+                        text: '1 - Dinheiro'
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        on_release: root.iniciar_pagamento(root.servico,1)
+
+                    MDRaisedButton:
+                        text: '2 - Pix'
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        on_release: root.iniciar_pagamento(root.servico,2)
+
+                    MDRaisedButton:
+                        text: '3 - Cartão de crédito'
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        on_release: root.iniciar_pagamento(root.servico,3)
+
+                    MDRaisedButton:
+                        text: '4 - Cartão de débito'
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        on_release: root.iniciar_pagamento(root.servico,4)
+
+                    MDRaisedButton:
+                        id: botao_cancelar
+                        text: 'Cancelar Compra'
+                        size_hint: None, None
+                        size: "200dp", "50dp"
+                        md_bg_color: 1, 0, 0, 1
+                        on_release: root.iniciar_pagamento(root.servico,0)
+
+                    MDLabel:
+                        id: label_cancelar
+                        text: ""
+                        font_size: 16
+                        halign: "center"
+
+<Verificador>: 
+    MDBoxLayout:
+        orientation:'vertical'
+        size_hint_y: None
+        padding:20
+        spacing:10            
+        
+        MDLabel:
+            id: label_verificador
+            text:""
+            halign:"center"
+            font_size:20
+            size_hint_y:None
+        
+        MDRaisedButton:
+            text:"Finalizar Compra"
+            size_hint_x:0.3
+            on_release: root.manager.current = 'finalizar_compra' 
+        
+        MDRaisedButton:
+            text:"Cancelar Compra"
+            size_hint_x:0.3
+            md_bg_color:1,0,0,1
+            on_release: root.manager.current = 'menu'           
+
+<FinalizarCompra>:
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y:None
+        height:50
+        padding:20
+        spacing:10
+        ActionBar:
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    title: 'Retorno'
+                    with_previous: False
+                    on_release: root.manager.current = 'comprar'
+                ActionButton:
+                    text: "Sair"
+                    on_release: app.stop()    
+        MDLabel:
+            text: "Compra Finalizada com Sucesso!"
+            font_size: 32
+            size_hint_y: None
+            height: 50
+            pos_hint:{"top":1,"center_x":0.5}
+        
+        MDRaisedButton:
+            text: "Voltar ao Menu"
+            on_release: root.manager.current = 'menu'
+        
+        MDRaisedButton:
+            text: "Sair"
+            on_release: app.stop()    
