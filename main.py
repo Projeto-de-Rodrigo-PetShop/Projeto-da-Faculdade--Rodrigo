@@ -120,12 +120,17 @@ class Comprar (MDScreen):
                 self.ids.label_cancelar.text = "Digite um valor válido"    
                 return  None    
             
-            self.manager.get_screen('verificador').forma_pagamento = forma_pagamento
-            self.manager.get_screen('verificador').verificar(self.servico)
-            self.manager.current = 'verificador'
+            if sistema.valor > 0:         
+                self.manager.get_screen('verificador').forma_pagamento = forma_pagamento
+                self.manager.get_screen('verificador').verificar(self.servico)
+                self.manager.current = 'verificador'
+            else:
+                self.ids.label_cancelar.text = "Valor Incorreto" 
+                return
         else:
             self.manager.current = 'menu'
             self.ids.label_cancelar.text = 'Pagamento cancelado'
+   
    def apagar(self,*args):
     self.ids.valores.text = ""
     self.ids.label_cancelar.text = ''
