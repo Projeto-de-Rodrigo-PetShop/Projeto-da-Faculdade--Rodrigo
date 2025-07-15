@@ -299,6 +299,7 @@
 <Comprar>:
     MDBoxLayout:
         orientation: 'vertical'
+
         ActionBar:
             size_hint_y: None
             height: "56dp"
@@ -314,144 +315,153 @@
         ScrollView:
             MDBoxLayout:
                 orientation: 'vertical'
-                padding: "20dp"
-                spacing: "20dp"
+                padding: "10dp"
+                spacing: "10dp"
                 size_hint_y: None
                 height: self.minimum_height
-                id:box_comprar
 
                 MDLabel:
                     id: label_pagamento
-                    text: ''
+                    text: 'Escolha um método de pagamento:'
                     font_size: 18
-                    halign: "left"
+                    halign: "center"
                     size_hint_y: None
+                    height: self.texture_size[1]
 
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "10dp"
+                GridLayout:
+                    cols: 2
                     size_hint_y: None
                     height: self.minimum_height
+                    row_default_height: '140dp'
+                    row_force_default: True
+                    col_default_width: '180dp'
+                    col_force_default: True
+                    spacing: "10dp"
 
-                    MDTextField:
-                        id: valores
-                        hint_text: "Digite o seu valor:"
-                        size_hint: None, None
-                        size: "200dp", "50dp"
-                        mode: "rectangle"
-                        input_filter: 'float'
-                        multiline: False
-                
-                    MDLabel:
-                        text: ""
-                        font_size: 18
-                        size_hint_y: None
-                        height: "30dp"
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
-            
-            MDLabel:
-                text:"Boleto Bancário"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size
+                    # Pagamento: Boleto
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"
 
-            MDRaisedButton:
-                text: 'Pagar'
-                size_hint: None, None
-                size: "200dp", "50dp"
-                on_release: root.iniciar_pagamento(1)
+                        MDLabel:
+                            text: "Boleto"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
 
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
-            
-            MDLabel:
-                text:"Pix"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size 
+                        FitImage:
+                            source: "imagens/Boleto-Bancario-PNG.png"
+                            size_hint_y: None
+                            height: "60dp"
 
-            MDRaisedButton:
-                text: 'Pagar'
-                size_hint: None, None
-                size: "200dp", "50dp"
-                on_release: root.iniciar_pagamento(2)
-        
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
-            
-            MDLabel:
-                text:"Cartão de Crédito"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size 
+                        MDRaisedButton:
+                            text: "Pagar"
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_pagamento(1)
 
-            MDRaisedButton:
-                text: 'Pagar'
-                size_hint: None, None
-                size: "200dp", "50dp"
-                on_release: root.iniciar_pagamento(3)
-  
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
-            
-            MDLabel:
-                text:"Cartão de Débito"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size 
+                    # Pagamento: Pix
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"
 
-            MDRaisedButton:
-                text: 'Pagar'
-                size_hint: None, None
-                size: "200dp", "50dp"
-                on_release: root.iniciar_pagamento(4)
+                        MDLabel:
+                            text: "Pix"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
 
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
-            
-            MDRaisedButton:
-                id: botao_cancelar
-                text: 'Cancelar Compra'
-                size_hint: None, None
-                size: "200dp", "50dp"
-                md_bg_color: 1, 0, 0, 1
-                on_release: root.manager.current = 'menu'
+                        FitImage:
+                            source: "imagens/pix-foto-site-1.png"
+                            size_hint_y: None
+                            height: "60dp"
 
-            MDLabel:
-                id: label_cancelar
-                text: ""
-                font_size: 16
-                halign: "center"
+                        MDRaisedButton:
+                            text: "Pagar"
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_pagamento(2)
+
+                    # Pagamento: Cartão de Crédito
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"
+
+                        MDLabel:
+                            text: "Crédito"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                        FitImage:
+                            source: "imagens/fazer-cartao-de-credito-mobills.jpg"
+                            size_hint_y: None
+                            height: "60dp"
+
+                        MDRaisedButton:
+                            text: "Pagar"
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_pagamento(3)
+
+                    # Pagamento: Cartão de Débito
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"
+
+                        MDLabel:
+                            text: "Débito"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                        FitImage:
+                            source: "imagens/Cartao-com-uso-exclusivo-para-Debito.jpg"
+                            size_hint_y: None
+                            height: "60dp"
+
+                        MDRaisedButton:
+                            text: "Pagar"
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_pagamento(4)
+
+                MDTextField:
+                    id: valores
+                    hint_text: "Digite o valor"
+                    size_hint_x: None
+                    width: "200dp"
+                    size_hint_y: None
+                    height: "50dp"
+                    pos_hint: {"center_x": 0.5}
+                    mode: "rectangle"
+                    input_filter: 'float'
+                    multiline: False
+
+                MDRaisedButton:
+                    id: botao_cancelar
+                    text: "Cancelar Compra"
+                    size_hint: None, None
+                    size: "200dp", "50dp"
+                    md_bg_color: 1, 0, 0, 1
+                    pos_hint: {"center_x": 0.5}
+                    on_release: root.manager.current = 'menu'
+
+                MDLabel:
+                    id: label_cancelar
+                    text: ""
+                    font_size: 16
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
 
 <Verificador>: 
     FloatLayout:
