@@ -9,6 +9,8 @@
         name: 'menu'
     Atendimento:
         name: 'atendimento' 
+    Bancos:
+        name:'bancos'    
     Comprar:
         name: 'comprar'
     Verificador:
@@ -166,7 +168,6 @@
 <Atendimento>:
     MDBoxLayout:
         orientation: 'vertical'
-        spacing:10
         ActionBar:
             size_hint_y: None
             ActionView:
@@ -177,125 +178,144 @@
                 ActionButton:
                     text: "Sair"
                     on_release: app.stop()    
-        
+            
         ScrollView:   
             MDBoxLayout:
                 id: box
+                spacing: 10
+                padding: 10
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
+            
+                MDLabel:
+                    id: label_atendimento
+                    text: 'Escolha um serviço:'
+                    font_size: 18
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
         
-        MDBoxLayout:
-            id:box_servicos
-            orientation: 'horizontal'
-            MDLabel:
-                id: texto
-                text: ''
-                font_size: 32
-                size_hint_y: None 
-      
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:10
-            padding:20
-            size_hint_y:None
-            width:10
-            height:self.minimum_height                   
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: self.minimum_height
+                    row_default_height: '140dp'
+                    row_force_default: True
+                    col_default_width: '180dp'
+                    col_force_default: True
+                    spacing: "10dp" 
+                    
+                    #Linha de Vacinação
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"                
             
-            MDLabel:
-                text:"Vacinação - R$200"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size
-            
-            MDRaisedButton:              
-                text: 'Comprar Serviço'
-                size_hint_x:0.3 
-                size: "200dp", "60dp"
-                on_release: root.iniciar_atendimento(1) 
-        
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:10
-            padding:20
-            size_hint_y:None
-            width:10
-            height:self.minimum_height  
+                        MDLabel:
+                            text:"Vacinação - R$200"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        
+                        FitImage:
+                            source:"imagens/4- VACINA.png"
+                            size_hint_y: None
+                            height: "65dp"
 
-            MDLabel:
-                text:"Exames - R$500"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size
+                        MDRaisedButton:              
+                            text: 'Comprar Serviço'
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_atendimento(1) 
+                    
+                    #Linha de Exames
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"
+                        
+                        MDLabel:
+                            text:"Exames - R$500"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        
+                        FitImage:
+                            source:"imagens/Exames-laboratoriais.jpg"
+                            size_hint_y: None
+                            height: "65dp"
 
-            MDRaisedButton:              
-                text: 'Comprar Serviço'
-                size_hint: None, None
-                size: "200dp", "60dp"
-                on_release: root.iniciar_atendimento(2) 
-       
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:10
-            padding:20
-            size_hint_y:None
-            width:10
-            height:self.minimum_height  
+                        MDRaisedButton:              
+                            text: 'Comprar Serviço'
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_atendimento(2) 
 
-            MDLabel:
-                text:"Banho e Tosa - R$150"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size
+                    #Linha de Banho e Tosa        
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp" 
+                    
+                        MDLabel:
+                            text:"Banho e Tosa - R$150"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        
+                        FitImage:
+                            source:"imagens/banho-tosa-pet-shop.jpg"
+                            size_hint_y: None
+                            height: "65dp"
 
-            MDRaisedButton:              
-                text: 'Comprar Serviço'
-                size_hint: None, None
-                size: "200dp", "60dp"
-                on_release:  root.iniciar_atendimento(3) 
-            
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:20
-            size_hint_y:None
-            width:10
-            height:self.minimum_height  
+                        MDRaisedButton:              
+                            text: 'Comprar Serviço'
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release:  root.iniciar_atendimento(3) 
+
+                    #Linha de Adestramento            
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_x: 0.25
+                        spacing: "5dp"  
  
-            MDLabel:
-                text:"Adestramento - R$350"
-                halign:"center"
-                valign:"middle"
-                size_hint_x:0.7
-                text_size:self.size
+                        MDLabel:
+                            text:"Adestramento - R$350"
+                            halign: "center"
+                            font_style: "Caption"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                        
+                        FitImage:
+                            source:"imagens/adestramento.jpg"
+                            size_hint_y: None
+                            height: "65dp"
 
-            MDRaisedButton:              
-                text: 'Comprar Serviço'
-                size_hint: None, None
-                size: "200dp", "60dp"
-                on_release:  root.iniciar_atendimento(4)     
+                        MDRaisedButton:              
+                            text: 'Comprar Serviço'
+                            size_hint_y: None
+                            height: "35dp"
+                            on_release: root.iniciar_atendimento(4)
         
-        MDBoxLayout:
-            orientation:'horizontal'
-            spacing:15
-            padding:10
-            size_hint_y:None
-            width:10
-            height:self.minimum_height
+                MDRaisedButton:    
+                    text: 'Cancelar'
+                    size_hint: None, None
+                    size: "200dp", "50dp"
+                    md_bg_color: 1, 0, 0, 1
+                    id: botao_cancelar
+                    on_release: root.iniciar_atendimento(0) 
             
-            MDRaisedButton:    
-                text: 'Cancelar'
-                size_hint:None,None
-                size:"200dp","60dp"
-                md_bg_color:1,0,0,1
-                id: botao_cancelar
-                on_release: root.iniciar_atendimento(0) 
-            MDLabel:
-                id: label_cancelar
-                text: ""
+                MDLabel:
+                    id: label_cancelar
+                    text: ""
+
+<Bancos>:
+
 <Comprar>:
     MDBoxLayout:
         orientation: 'vertical'

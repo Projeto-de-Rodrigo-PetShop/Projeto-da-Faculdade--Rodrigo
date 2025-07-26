@@ -77,13 +77,16 @@ class Atendimento(MDScreen):
          
         #Comparação dependendo do que o usuário escolher
         if resultado is not None:
-            self.manager.get_screen('comprar').servico = selecionar_servico
-            self.manager.current = 'comprar'
+            self.manager.get_screen('bancos').servico = selecionar_servico
+            self.manager.current = 'bancos'
         else:
             
                 self.manager.current = 'menu'
                 self.ids.label_cancelar.text = 'Atendimento cancelado'
                 self.ids.label_cancelar.text = ''
+
+class Bancos(MDScreen):
+    pass
 
 class Comprar (MDScreen):
    servico=None
