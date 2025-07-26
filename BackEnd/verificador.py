@@ -7,8 +7,8 @@ def func_verificador(self, selecionar_servico):
         return f"Não pode ser Zero e Nem valores Abaixo"
     elif self.valor >= preco:
         self.valor -= preco
-
         #Esse return vai retornar as variáveis em lista, ou em tupla
         return self.valor, nome_servico, preco
     else:
-        return f"Valor insuficiente para o serviço {nome_servico}. Preço: R${preco}, seu saldo: R${self.valor}."
+        return f"Valor insuficiente para o serviço {nome_servico}. \nPreço: R${preco} \nSeu saldo: R${self.valor}."
+ 

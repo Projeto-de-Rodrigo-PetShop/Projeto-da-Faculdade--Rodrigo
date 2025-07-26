@@ -4,6 +4,12 @@ from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.screen import MDScreen
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.label import MDLabel
+
+
+from KivyMD import *
 
 from BackEnd.classe_veterinario import veterinario
 
@@ -12,86 +18,9 @@ sistema = veterinario()
 Builder.load_file("FrontEnd/telas.kv")
 class Gerenciador(ScreenManager):
     pass
-
-class Cadastro(MDScreen):
-    
-    #função de cadastro, é feito por 2 variáveis (nome_cadastro e senha_cadastro), ambas vão pegar os valores por id
-    #Isso quer dizer que o que eu digitar, eles vão receber os valores automaticamente
-
-    def cadastrar(self):
-
-        nome_cadastro=self.ids.nome_input.text
-        senha_cadastro=self.ids.senha_input.text
-                   
-        
-        if nome_cadastro and senha_cadastro:
-
-            sistema.cadastro(nome_cadastro, senha_cadastro)
-            self.manager.get_screen('login').nome_usuario = nome_cadastro
-            self.manager.get_screen('login').senha_usuario = senha_cadastro
-            self.manager.current = 'login'
-        else:
-           self.ids.mensagem_erro.text = "Preencha todos os campos."
-        
-class Login(MDScreen):
-    
-    #apenas para declarar as 2 variáveis, que estão vazias, pois ainda não fora comparadas
-   
-    nome_usuario =""
-    senha_usuario = ""
-   
-    def login(self):
-       
-        #Vão pegar os valores que eu digitar e compará-los com os antigos
-        nome_login = self.ids.nome_usuario.text
-        senha_login = self.ids.senha_usuario.text
-        
-        #chamada da classe para pegar as variáveis, levando em conta as variáveis dentro da classe veterinario
-        sistema.nome = nome_login
-        sistema.senha = senha_login
-        
-        #variável para armazenamento e comparação com o que está na função cadastro(BackEnd)
-        logado = sistema.salvar_login(nome_login, senha_login)
-        if logado: 
-            
-            self.ids.mensagem_login.text = "Login bem-sucedido!"
-            self.manager.current = 'menu'
-            self.manager.get_screen('menu').Montar_Perfil()
-        else:
-            self.ids.mensagem_login.text = "Senha ou nome de usuário incorretos."
-         
-class Menu(MDScreen):
-    
-    #Apenas para mostrar o nome do usuário e levar esse valor para a tela de menu
-   
-    def Montar_Perfil(self):
-        
-        #o .get_screen('') é o comando q leva tal informação para outra tela
-        nome_usuario = self.manager.get_screen('login').nome_usuario
-        sistema.nome = nome_usuario
-        self.ids.label_nome.text =  f'Nome do Usuário: {nome_usuario}'
-class Atendimento(MDScreen):
-    def iniciar_atendimento(self, selecionar_servico):
-
-        resultado = sistema.atendimento(selecionar_servico)
-         
-        #Comparação dependendo do que o usuário escolher
-        if resultado is not None:
-            self.manager.get_screen('bancos').servico = selecionar_servico
-            self.manager.current = 'bancos'
-        else:
-            
-                self.manager.current = 'menu'
-                self.ids.label_cancelar.text = 'Atendimento cancelado'
-                self.ids.label_cancelar.text = ''
-
-class Bancos(MDScreen):
-    pass
-
 class Comprar (MDScreen):
    servico=None
    
-
    #Vai determinar os valores que a pessoa colocou
    #E o pagamento que ela vai escolher
    
@@ -101,9 +30,8 @@ class Comprar (MDScreen):
        #Não precisando fazer outra chamada para consulta
        #O valor do escolha_pagamento é dado por conta dos botões
 
-        Clock.schedule_once(self.apagar) 
-
-
+        Clock.schedule_once(self.apagar, 1) 
+        
         if  escolha_pagamento== 1:
             forma_pagamento = "Boleto Bancário"
         elif escolha_pagamento == 2:
@@ -126,7 +54,6 @@ class Comprar (MDScreen):
             if sistema.valor > 0:         
                 self.manager.get_screen('verificador').forma_pagamento = forma_pagamento
                 self.manager.get_screen('verificador').verificar(self.servico)
-                self.manager.current = 'verificador'
             else:
                 self.ids.label_cancelar.text = "Valor Incorreto" 
                 return
@@ -137,7 +64,9 @@ class Comprar (MDScreen):
    def apagar(self,*args):
     self.ids.valores.text = ""
     self.ids.label_cancelar.text = ''
+
 class Verificador(MDScreen):   
+    dialog = None
     forma_pagamento = None
     def verificar(self, servico):
         resultado=sistema.verificador(servico) 
@@ -156,9 +85,53 @@ class Verificador(MDScreen):
                                                f"O Serviço escolhido: {resultado[1]}\n"
                                                f""
                                                f"O Pagamento escolhido: {self.forma_pagamento}")        
+        
+            texto = self.ids.label_verificador.text
+            cor = (0,0.5,0.5,1)
+            redirecionar_finalizada = True
         else:
-            self.ids.label_verificador.text = f"{resultado}"
-       
+            texto = f"{resultado}"
+            cor =(1,0,0,1)
+            redirecionar_finalizada = False
+        
+        self.nota_fiscal(texto, cor, redirecionar_finalizada)   
+
+    #Essa função vai fazer com que a nota fiscal seja mostrada após a realização de um pagamento
+    #quando apertado no botão 'OK' você será redirecionado ao finalizar_compra
+
+    def nota_fiscal(self, texto, cor, redirecionar_finalizada = False):   
+        def fechar_nota(x):
+         self.dialog.dismiss()
+         
+         #Forma de comparar as respostas e enviar o usuário para o menu ou não
+         if redirecionar_finalizada == True:
+            self.manager.current = 'finalizar_compra'
+         else:
+            self.manager.current = 'menu'
+        
+        #Todo o título e a sua customização
+
+        self.dialog = MDDialog(
+          title="Resultado da Compra",
+          type="custom",
+          radius=[20, 7, 20, 7],
+          md_bg_color=cor,
+          content_cls=MDLabel(
+            text=texto,
+            halign="center",
+            theme_text_color="Custom",
+            text_color=(1, 1, 1, 1),
+            size_hint_y=None
+        ),
+        buttons=[
+            MDRaisedButton(
+                text="Finalizar",
+                text_color=(1, 1, 1, 1),
+                on_release=fechar_nota #Botão que vai fazer a chamada da função
+            )
+        ]
+    )
+        self.dialog.open()
 class FinalizarCompra(MDScreen):
     pass
 class Executador_App(MDApp):
@@ -168,7 +141,7 @@ class Executador_App(MDApp):
         self.theme_cls.accent_palette = "Amber"
         self.theme_cls.theme_style = "Light"
         self.theme_cls.theme_style_switch_animation = True
-        self.theme_cls.theme_style_switch_animation_duration = 0.8
+        self.theme_cls.theme_style_switch_animation_duration = 1
         
         return Gerenciador()
     
