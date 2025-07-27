@@ -10,8 +10,6 @@ from BackEnd.classe_veterinario import veterinario
 
 sistema = veterinario()
 
-
-
 #Essa classe vai fazer com que o usuário escolha o método de pagamento
 
 class Comprar (MDScreen):
@@ -49,8 +47,8 @@ class Comprar (MDScreen):
             
             if sistema.valor > 0:  
                 
-                if forma_pagamento == "Pix":
-                    self.simular_pagamento_pix()
+                if forma_pagamento in ("Pix", "Boleto Bancário"):
+                    self.simular_pagamento_pix(forma_pagamento)
                 else:           
                     self.manager.get_screen('verificador').forma_pagamento = forma_pagamento
                     self.manager.get_screen('verificador').verificar(self.servico)
@@ -63,8 +61,10 @@ class Comprar (MDScreen):
    
    #vai simular um pagamento caso o usuario peça por pix
 
-   def simular_pagamento_pix(self):
-        
+   def simular_pagamento_pix(self, forma_pagamento):   
+       
+        self.forma_pagamento = forma_pagamento
+       
         self.dialog = MDDialog(
         title="QR Code para Pagamento",
         type="custom",
@@ -73,25 +73,24 @@ class Comprar (MDScreen):
             size_hint_y=None,
             height="300dp"
         )
-        
             )
         self.dialog.open()
         self.ids.label_cancelar.text = "Aguardando pagamento..."
-
-        self.manager.get_screen('verificador').forma_pagamento = "Pix"
+        
         Clock.schedule_once(self.pagamento_pix_aprovado, 4)
 
    def pagamento_pix_aprovado(self, dt):
+    
     self.ids.label_cancelar.text = ""
-    self.manager.get_screen('verificador').forma_pagamento = "Pix"
+    
+    self.manager.get_screen('verificador').forma_pagamento = self.forma_pagamento
     self.manager.get_screen('verificador').verificar(self.servico)
-       
+    
    def apagar_pagamento(self,*args):
     self.ids.valores.text = ""
     self.ids.label_cancelar.text = ''
     self.dialog.dismiss()
     
-
 #Essa Classe vai verificar o pagamento e mandar o resultado
 
 class Verificador(MDScreen):   

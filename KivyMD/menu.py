@@ -3,7 +3,6 @@ from BackEnd.classe_veterinario import veterinario
 
 sistema = veterinario()
 
-
 class Menu(MDScreen):
     
     #Apenas para mostrar o nome do usuário e levar esse valor para a tela de menu
