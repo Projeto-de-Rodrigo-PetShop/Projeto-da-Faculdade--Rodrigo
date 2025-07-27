@@ -59,8 +59,8 @@ class Comprar (MDScreen):
             self.manager.current = 'menu'
             self.ids.label_cancelar.text = 'Pagamento cancelado'
    
-   #vai simular um pagamento caso o usuario peça por pix
-
+   #vai simular um pagamento caso o usuario peça por pix 
+   
    def simular_pagamento_pix(self, forma_pagamento):   
        
         self.forma_pagamento = forma_pagamento
@@ -82,14 +82,23 @@ class Comprar (MDScreen):
    def pagamento_pix_aprovado(self, dt):
     
     self.ids.label_cancelar.text = ""
-    
+
+    if hasattr(self, "dialog") and self.dialog:
+        self.dialog.dismiss()
+        self.dialog = None
+
     self.manager.get_screen('verificador').forma_pagamento = self.forma_pagamento
     self.manager.get_screen('verificador').verificar(self.servico)
     
    def apagar_pagamento(self,*args):
     self.ids.valores.text = ""
     self.ids.label_cancelar.text = ''
-    self.dialog.dismiss()
+
+    #----Vai fechar o dialog (hasattr é uma função embutida no python)------
+
+    if hasattr(self, "dialog") and self.dialog:
+        self.dialog.dismiss()
+        self.dialog = None
     
 #Essa Classe vai verificar o pagamento e mandar o resultado
 
