@@ -3,7 +3,7 @@ from kivymd.uix.screen import MDScreen
 
 sistema = veterinario()
 
-
+#Essa Classe vai fazer o atendimento dos serviços
 
 class Atendimento(MDScreen):
     def iniciar_atendimento(self, selecionar_servico):
@@ -11,6 +11,7 @@ class Atendimento(MDScreen):
         resultado = sistema.atendimento(selecionar_servico)
          
         #Comparação dependendo do que o usuário escolher
+        
         if resultado is not None:
             self.manager.get_screen('comprar').servico = selecionar_servico
             self.manager.current = 'comprar'

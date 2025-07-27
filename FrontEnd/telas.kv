@@ -16,6 +16,8 @@
     FinalizarCompra:
         name: 'finalizar_compra'        
 
+#--------------Organização do Cadastro---------------------------
+
 <Cadastro>:
     MDBoxLayout:
         orientation: 'vertical'
@@ -29,9 +31,35 @@
             halign:"center"
             font_style:"H4"
         
+        MDGridLayout:
+            cols: 2
+            size_hint_y: None
+            height: self.minimum_height
+            row_default_height: '140dp'
+            row_force_default: True
+            col_default_width: '180dp'
+            col_force_default: True
+            spacing: "10dp"
+            
+            MDTextField:
+                id: nome_input
+                hint_text: "Digite seu Nome: "
+                size_hint_y: None
+                height: 50 
+                mode:"rectangle"
+                multiline: False
+        
+            MDTextField:
+                id: sobrenome_input
+                hint_text: "Digite seu Sobrenome: "
+                size_hint_y: None
+                height: 50 
+                mode:"rectangle"
+                multiline: False
+        
         MDTextField:
-            id: nome_input
-            hint_text: "Digite seu nome: "
+            id: usuario_input
+            hint_text: "Digite seu nome de usuário: "
             size_hint_y: None
             height: 50 
             mode:"rectangle"
@@ -64,6 +92,9 @@
             id:mensagem_erro
             text:""  
             theme_text_color:"Error"      
+
+#--------------Organização do Login-------------------
+
 <Login>:
     
     MDBoxLayout: 
@@ -85,7 +116,6 @@
             height: 50
             mode:"rectangle"
             multiline: False
-       
        
         MDTextField:
             id:senha_usuario
@@ -120,7 +150,8 @@
             halign:"center"
             theme_text_color:"Error"
 
-            
+#--------------------Organização do Menu-------------------
+
 <Menu>:    
     FloatLayout:                
         MDBoxLayout:             
@@ -162,6 +193,8 @@
             valign: "bottom"
             font_size:18
             text_size:self.size
+
+#-------------------Organização do Atendimento--------------------
 
 <Atendimento>:
     MDBoxLayout:
@@ -312,6 +345,9 @@
                     id: label_cancelar
                     text: ""
 
+
+#------------------------Organização de Comprar--------------------
+
 <Comprar>:
     MDBoxLayout:
         orientation: 'vertical'
@@ -394,8 +430,8 @@
                         FitImage:
                             source: "imagens/pix-foto-site-1.png"
                             size_hint_y: None
-                            height: "60dp"
-
+                            height: "60dp" 
+                        
                         MDRaisedButton:
                             text: "Pagar"
                             size_hint_y: None
@@ -460,8 +496,8 @@
                     pos_hint: {"center_x": 0.5}
                     mode: "rectangle"
                     input_filter: 'float'
-                    multiline: False
-
+                    multiline: False 
+                
                 MDRaisedButton:
                     id: botao_cancelar
                     text: "Cancelar Compra"
@@ -469,7 +505,7 @@
                     size: "200dp", "50dp"
                     md_bg_color: 1, 0, 0, 1
                     pos_hint: {"center_x": 0.5}
-                    on_release: root.manager.current = 'menu'
+                    md_bg_color: 1, 0, 0, 1
 
                 MDLabel:
                     id: label_cancelar
@@ -477,7 +513,10 @@
                     font_size: 16
                     halign: "center"
                     size_hint_y: None
+                    theme_text_color:"Error"
                     height: self.texture_size[1]
+
+#--------------------Organização do Verificador-------------------------
 
 <Verificador>: 
     FloatLayout:
@@ -507,6 +546,8 @@
                 size_hint_x:0.3
                 md_bg_color:1,0,0,1
                 on_release: root.manager.current = 'menu'           
+
+#----------Tela de Finalização da Compra----------------
 
 <FinalizarCompra>:
     FloatLayout:
